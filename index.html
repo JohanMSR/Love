@@ -100,13 +100,21 @@
                 overflow-y: auto;
             }
             .message-container {
-                max-height: none;
+                max-height: 85vh;
+                overflow-y: auto;
                 padding-bottom: 2rem;
-                overflow-y: visible;
+                margin: 2.5vh auto;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
             }
             #yes-message, #no-message {
-                margin: 2rem 0;
+                margin: 0;
                 padding: 1rem;
+                min-height: 85vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
         }
     </style>
@@ -166,7 +174,7 @@
         <!-- Mensaje para respuesta "Sí" -->
         <div id="yes-message" class="hidden text-center fade-in">
             <div class="bg-white bg-opacity-90 rounded-2xl p-8 shadow-xl border-2 border-pink-200 relative message-container">
-                <div class="relative z-10">
+                <div class="relative z-10 w-full">
                     <div class="text-6xl mb-4 animate-bounce">🎉💖✨</div>
                     <h2 class="text-3xl font-bold rainbow-text mb-6">¡SÍ! ¡SÍ! ¡SÍ!</h2>
                     <div class="text-lg text-gray-700 leading-relaxed space-y-4">
@@ -192,7 +200,7 @@
         <!-- Mensaje para respuesta "No" -->
         <div id="no-message" class="hidden text-center fade-in">
             <div class="bg-white bg-opacity-90 rounded-2xl p-8 shadow-xl border-2 border-gray-200 relative message-container">
-                <div class="relative z-10">
+                <div class="relative z-10 w-full">
                     <div class="text-6xl mb-4 animate-pulse">😢💔🌧️</div>
                     <h2 class="text-3xl font-bold text-gray-600 mb-6">Entiendo tu decisión...</h2>
                     <div class="text-lg text-gray-700 leading-relaxed space-y-4">
@@ -386,8 +394,12 @@
                 // Permitir scroll en los mensajes
                 const messages = document.querySelectorAll('#yes-message, #no-message');
                 messages.forEach(msg => {
-                    msg.style.overflow = 'visible';
-                    msg.style.maxHeight = 'none';
+                    msg.style.overflow = 'auto';
+                    msg.style.maxHeight = '85vh';
+                    msg.style.minHeight = '85vh';
+                    msg.style.display = 'flex';
+                    msg.style.alignItems = 'center';
+                    msg.style.justifyContent = 'center';
                 });
             }
         }
