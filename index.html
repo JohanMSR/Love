@@ -86,31 +86,38 @@
         body {
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
+            position: relative;
         }
         .message-container {
-            max-height: 80vh;
-            overflow-y: auto;
+            max-height: none;
+            overflow-y: visible;
             -webkit-overflow-scrolling: touch;
         }
         @media (max-width: 768px) {
             body {
-                min-height: 100vh;
+                min-height: auto;
                 height: auto;
+                overflow-y: auto;
             }
             .message-container {
-                max-height: 70vh;
+                max-height: none;
                 padding-bottom: 2rem;
+                overflow-y: visible;
+            }
+            #yes-message, #no-message {
+                margin: 2rem 0;
+                padding: 1rem;
             }
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-pink-100 via-red-100 to-purple-100 min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+<body class="bg-gradient-to-br from-pink-100 via-red-100 to-purple-100 min-h-screen p-4 relative">
     <!-- Corazones flotantes de fondo -->
     <div id="floating-hearts" class="floating-hearts"></div>
     
-    <div class="max-w-2xl w-full relative z-10 flex flex-col min-h-screen md:min-h-0">
+    <div class="max-w-2xl w-full mx-auto relative z-10">
         <!-- Contenedor principal -->
-        <div id="main-content" class="text-center fade-in flex-shrink-0">
+        <div id="main-content" class="text-center fade-in py-8">
             <!-- Título con corazón animado -->
             <div class="mb-8 relative">
                 <h1 class="text-4xl md:text-6xl font-bold rainbow-text mb-4 drop-shadow-lg">
@@ -368,6 +375,26 @@
         // Inicializar efectos
         createFloatingHearts();
         createSparkles();
+
+        // Asegurar scroll en móvil
+        function enableMobileScroll() {
+            if (window.innerWidth <= 768) {
+                document.body.style.overflow = 'auto';
+                document.body.style.height = 'auto';
+                document.body.style.position = 'relative';
+                
+                // Permitir scroll en los mensajes
+                const messages = document.querySelectorAll('#yes-message, #no-message');
+                messages.forEach(msg => {
+                    msg.style.overflow = 'visible';
+                    msg.style.maxHeight = 'none';
+                });
+            }
+        }
+
+        // Ejecutar al cargar y al cambiar tamaño
+        enableMobileScroll();
+        window.addEventListener('resize', enableMobileScroll);
 
         // Agregar animación de caída para el confeti
         const style = document.createElement('style');
