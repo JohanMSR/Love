@@ -100,15 +100,18 @@
                 overflow-y: auto;
             }
             .message-container {
-                max-height: 85vh;
-                overflow-y: auto;
+                max-height: none;
+                overflow-y: visible;
                 padding-bottom: 2rem;
                 margin: 2.5vh auto;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
             }
-            #yes-message, #no-message {
+            #yes-message.hidden, #no-message.hidden {
+                display: none !important;
+            }
+            #yes-message:not(.hidden), #no-message:not(.hidden) {
                 margin: 0;
                 padding: 1rem;
                 min-height: 85vh;
@@ -182,7 +185,7 @@
                         
                         <p>Cada día a tu lado es un regalo que atesoro con todo mi corazón. Tu sonrisa ilumina mis mañanas, tu voz es la melodía más dulce que he escuchado, y tu amor es el combustible que hace que mi corazón lata con tanta fuerza.</p>
                         
-                        <p>Prometo amarte cada día más que el anterior. Prometo ser tu compañero en las buenas y en las malas, tu confidente en los momentos difíciles, y tu mayor fan en todos tus logros. Prometo hacerte reír cuando estés triste, abrazarte cuando necesites consuelo, y celebrar cada pequeño triunfo contigo.</p>
+                    
                         
                         <p>Juntos vamos a construir un futuro lleno de amor, risas, aventuras y momentos inolvidables. Vamos a crear recuerdos que durarán toda la vida, a superar cualquier obstáculo que se nos presente, y a demostrarle al mundo que el amor verdadero existe.</p>
                         
@@ -239,6 +242,16 @@
             mainContent.classList.add('hidden');
             messageElement.classList.remove('hidden');
             messageElement.classList.add('fade-in');
+            
+            // Aplicar estilos específicos para móvil cuando el mensaje se muestra
+            if (window.innerWidth <= 768) {
+                messageElement.style.overflow = 'visible';
+                messageElement.style.maxHeight = 'none';
+                messageElement.style.minHeight = '85vh';
+                messageElement.style.display = 'flex';
+                messageElement.style.alignItems = 'center';
+                messageElement.style.justifyContent = 'center';
+            }
         }
 
         // Función para volver a la pregunta principal
@@ -246,6 +259,12 @@
             yesMessage.classList.add('hidden');
             noMessage.classList.add('hidden');
             mainContent.classList.remove('hidden');
+            
+            // Resetear estilos cuando se ocultan los mensajes
+            if (window.innerWidth <= 768) {
+                yesMessage.style.display = 'none';
+                noMessage.style.display = 'none';
+            }
         }
 
         // Crear corazones flotantes de fondo
@@ -391,15 +410,19 @@
                 document.body.style.height = 'auto';
                 document.body.style.position = 'relative';
                 
-                // Permitir scroll en los mensajes
+                // Permitir scroll en los mensajes solo si están visibles
                 const messages = document.querySelectorAll('#yes-message, #no-message');
                 messages.forEach(msg => {
-                    msg.style.overflow = 'auto';
-                    msg.style.maxHeight = '85vh';
-                    msg.style.minHeight = '85vh';
-                    msg.style.display = 'flex';
-                    msg.style.alignItems = 'center';
-                    msg.style.justifyContent = 'center';
+                    if (!msg.classList.contains('hidden')) {
+                        msg.style.overflow = 'visible';
+                        msg.style.maxHeight = 'none';
+                        msg.style.minHeight = '85vh';
+                        msg.style.display = 'flex';
+                        msg.style.alignItems = 'center';
+                        msg.style.justifyContent = 'center';
+                    } else {
+                        msg.style.display = 'none';
+                    }
                 });
             }
         }
